@@ -264,6 +264,7 @@ class Mage_Checkout_Model_Type_Onepage
         }
 
         $address = $this->getQuote()->getBillingAddress();
+
         /* @var $addressForm Mage_Customer_Model_Form */
         $addressForm = Mage::getModel('customer/form');
         $addressForm->setFormCode('customer_address_edit')
@@ -290,6 +291,7 @@ class Mage_Checkout_Model_Type_Onepage
             $addressForm->setEntity($address);
             // emulate request object
             $addressData    = $addressForm->extractData($addressForm->prepareRequest($data));
+            
             $addressErrors  = $addressForm->validateData($addressData);
             if ($addressErrors !== true) {
                 return array('error' => 1, 'message' => array_values($addressErrors));

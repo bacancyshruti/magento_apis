@@ -62,7 +62,7 @@ class Lading_Api_WishlistController extends Mage_Core_Controller_Front_Action {
 		}else{
 			echo json_encode(array(
 				'code' => 5,
-				'message' => 'not user login',
+				'message' => 'You already logged into another device. You have to logout First.',
 				'data'=>array ()
 			));
 		}
@@ -94,7 +94,7 @@ class Lading_Api_WishlistController extends Mage_Core_Controller_Front_Action {
 		}else{
 			echo json_encode(array(
 				'code' => 5,
-				'message' => 'not user login',
+				'message' => 'You already logged into another device. You have to logout First.',
 				'data'=>array ()
 			));
 		}

@@ -41,7 +41,7 @@ class Lading_Api_AddressController extends Mage_Core_Controller_Front_Action
                 'code' => 0,
                 'message' => 'get user address list success!',
                 'data' => $addressList
-                  )
+                )
         );
 
     }

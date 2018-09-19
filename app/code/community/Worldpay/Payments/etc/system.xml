@@ -1,0 +1,569 @@
+<?xml version="1.0"?>
+<config>
+  <sections>
+    <worldpay translate="label" module="worldpay">
+      <label>Worldpay Payments</label>
+      <class>worldpay-section</class>
+      <tab>sales</tab>
+      <frontend_type>text</frontend_type>
+      <sort_order>345</sort_order>
+      <show_in_default>1</show_in_default>
+      <show_in_website>1</show_in_website>
+      <show_in_store>1</show_in_store>
+      <groups>
+
+  <general_config translate="label">
+    <label>Card Configuration</label>
+    <frontend_type>text</frontend_type>
+    <sort_order>500</sort_order>
+    <show_in_default>1</show_in_default>
+    <show_in_website>1</show_in_website>
+    <show_in_store>0</show_in_store>
+    <expanded>1</expanded>
+          <fields>
+
+
+             <enabled translate="label">
+              <label>Enabled</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <config_path>payment/worldpay_cc/enabled</config_path>
+              <sort_order>1</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </enabled>
+
+
+            <payment_action translate="label">
+                  <label>Payment Action</label>
+                  <frontend_type>select</frontend_type>
+                  <source_model>worldpay/system_config_source_paymentAction</source_model>
+                  <config_path>payment/worldpay_cc/payment_action</config_path>
+                  <sort_order>1</sort_order>
+                  <show_in_default>1</show_in_default>
+                  <show_in_website>1</show_in_website>
+                  <show_in_store>1</show_in_store>
+              </payment_action>
+
+
+            <storeonfile translate="label">
+              <label>Store customers card on file</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <config_path>payment/worldpay_cc/card_on_file</config_path>
+              <sort_order>2</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </storeonfile>
+
+
+             <use3ds translate="label">
+              <label>Use 3D Secure</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <config_path>payment/worldpay_cc/use3ds</config_path>
+              <sort_order>1</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </use3ds>
+
+            <title translate="label">
+              <label>Title</label>
+              <frontend_type>text</frontend_type>
+              <config_path>payment/worldpay_cc/title</config_path>
+              <sort_order>4</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </title>
+          </fields>
+  </general_config>
+
+  <paypal_config>
+    <label>PayPal Configuration</label>
+    <frontend_type>text</frontend_type>
+    <sort_order>600</sort_order>
+    <show_in_default>1</show_in_default>
+    <show_in_website>1</show_in_website>
+    <show_in_store>1</show_in_store>
+    <expanded>1</expanded>
+    <fields>
+            <enabled translate="label">
+              <label>Enabled</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <config_path>payment/worldpay_paypal/enabled</config_path>
+              <sort_order>1</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </enabled>
+
+            <title translate="label">
+              <label>Title</label>
+              <frontend_type>text</frontend_type>
+              <config_path>payment/worldpay_paypal/title</config_path>
+              <sort_order>4</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </title>
+
+    </fields>
+  </paypal_config>
+
+  <giropay_config>
+    <label>Giropay Configuration</label>
+    <frontend_type>text</frontend_type>
+    <sort_order>700</sort_order>
+    <show_in_default>1</show_in_default>
+    <show_in_website>1</show_in_website>
+    <show_in_store>1</show_in_store>
+    <expanded>1</expanded>
+    <fields>
+            <enabled translate="label">
+              <label>Enabled</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <config_path>payment/worldpay_giropay/enabled</config_path>
+              <sort_order>1</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </enabled>
+
+            <title translate="label">
+              <label>Title</label>
+              <frontend_type>text</frontend_type>
+              <config_path>payment/worldpay_giropay/title</config_path>
+              <sort_order>4</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </title>
+    </fields>
+  </giropay_config>
+
+
+  <alipay_config>
+    <label>Alipay Configuration</label>
+    <frontend_type>text</frontend_type>
+    <sort_order>700</sort_order>
+    <show_in_default>1</show_in_default>
+    <show_in_website>1</show_in_website>
+    <show_in_store>1</show_in_store>
+    <expanded>1</expanded>
+    <fields>
+            <enabled translate="label">
+              <label>Enabled</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <config_path>payment/worldpay_alipay/enabled</config_path>
+              <sort_order>1</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </enabled>
+
+            <title translate="label">
+              <label>Title</label>
+              <frontend_type>text</frontend_type>
+              <config_path>payment/worldpay_alipay/title</config_path>
+              <sort_order>4</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </title>
+    </fields>
+  </alipay_config>
+
+  <ideal_config>
+    <label>iDeal Configuration</label>
+    <frontend_type>text</frontend_type>
+    <sort_order>700</sort_order>
+    <show_in_default>1</show_in_default>
+    <show_in_website>1</show_in_website>
+    <show_in_store>1</show_in_store>
+    <expanded>1</expanded>
+    <fields>
+            <enabled translate="label">
+              <label>Enabled</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <config_path>payment/worldpay_ideal/enabled</config_path>
+              <sort_order>1</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </enabled>
+
+            <title translate="label">
+              <label>Title</label>
+              <frontend_type>text</frontend_type>
+              <config_path>payment/worldpay_ideal/title</config_path>
+              <sort_order>4</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </title>
+    </fields>
+  </ideal_config>
+
+  <mistercash_config>
+    <label>Mister Cash Configuration</label>
+    <frontend_type>text</frontend_type>
+    <sort_order>700</sort_order>
+    <show_in_default>1</show_in_default>
+    <show_in_website>1</show_in_website>
+    <show_in_store>1</show_in_store>
+    <expanded>1</expanded>
+    <fields>
+            <enabled translate="label">
+              <label>Enabled</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <config_path>payment/worldpay_mistercash/enabled</config_path>
+              <sort_order>1</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </enabled>
+
+            <title translate="label">
+              <label>Title</label>
+              <frontend_type>text</frontend_type>
+              <config_path>payment/worldpay_mistercash/title</config_path>
+              <sort_order>4</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </title>
+    </fields>
+  </mistercash_config>
+
+  <przelewy24_config>
+    <label>Przelewy24 Configuration</label>
+    <frontend_type>text</frontend_type>
+    <sort_order>700</sort_order>
+    <show_in_default>1</show_in_default>
+    <show_in_website>1</show_in_website>
+    <show_in_store>1</show_in_store>
+    <expanded>1</expanded>
+    <fields>
+            <enabled translate="label">
+              <label>Enabled</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <config_path>payment/worldpay_przelewy24/enabled</config_path>
+              <sort_order>1</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </enabled>
+
+            <title translate="label">
+              <label>Title</label>
+              <frontend_type>text</frontend_type>
+              <config_path>payment/worldpay_przelewy24/title</config_path>
+              <sort_order>4</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </title>
+    </fields>
+  </przelewy24_config>
+
+  <paysafecard_config>
+    <label>PaySafeCard Configuration</label>
+    <frontend_type>text</frontend_type>
+    <sort_order>700</sort_order>
+    <show_in_default>1</show_in_default>
+    <show_in_website>1</show_in_website>
+    <show_in_store>1</show_in_store>
+    <expanded>1</expanded>
+    <fields>
+            <enabled translate="label">
+              <label>Enabled</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <config_path>payment/worldpay_paysafecard/enabled</config_path>
+              <sort_order>1</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </enabled>
+
+            <title translate="label">
+              <label>Title</label>
+              <frontend_type>text</frontend_type>
+              <config_path>payment/worldpay_paysafecard/title</config_path>
+              <sort_order>4</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </title>
+    </fields>
+  </paysafecard_config>
+
+  <postepay_config>
+    <label>Postepay Configuration</label>
+    <frontend_type>text</frontend_type>
+    <sort_order>700</sort_order>
+    <show_in_default>1</show_in_default>
+    <show_in_website>1</show_in_website>
+    <show_in_store>1</show_in_store>
+    <expanded>1</expanded>
+    <fields>
+            <enabled translate="label">
+              <label>Enabled</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <config_path>payment/worldpay_postepay/enabled</config_path>
+              <sort_order>1</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </enabled>
+
+            <title translate="label">
+              <label>Title</label>
+              <frontend_type>text</frontend_type>
+              <config_path>payment/worldpay_postepay/title</config_path>
+              <sort_order>4</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </title>
+    </fields>
+  </postepay_config>
+
+  <qiwi_config>
+    <label>Qiwi Configuration</label>
+    <frontend_type>text</frontend_type>
+    <sort_order>700</sort_order>
+    <show_in_default>1</show_in_default>
+    <show_in_website>1</show_in_website>
+    <show_in_store>1</show_in_store>
+    <expanded>1</expanded>
+    <fields>
+            <enabled translate="label">
+              <label>Enabled</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <config_path>payment/worldpay_qiwi/enabled</config_path>
+              <sort_order>1</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </enabled>
+
+            <title translate="label">
+              <label>Title</label>
+              <frontend_type>text</frontend_type>
+              <config_path>payment/worldpay_qiwi/title</config_path>
+              <sort_order>4</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </title>
+    </fields>
+  </qiwi_config>
+
+  <sofort_config>
+    <label>Sofort Configuration</label>
+    <frontend_type>text</frontend_type>
+    <sort_order>700</sort_order>
+    <show_in_default>1</show_in_default>
+    <show_in_website>1</show_in_website>
+    <show_in_store>1</show_in_store>
+    <expanded>1</expanded>
+    <fields>
+            <enabled translate="label">
+              <label>Enabled</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <config_path>payment/worldpay_sofort/enabled</config_path>
+              <sort_order>1</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </enabled>
+
+            <title translate="label">
+              <label>Title</label>
+              <frontend_type>text</frontend_type>
+              <config_path>payment/worldpay_sofort/title</config_path>
+              <sort_order>4</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </title>
+    </fields>
+  </sofort_config>
+
+  <yandex_config>
+    <label>Yandex Configuration</label>
+    <frontend_type>text</frontend_type>
+    <sort_order>700</sort_order>
+    <show_in_default>1</show_in_default>
+    <show_in_website>1</show_in_website>
+    <show_in_store>1</show_in_store>
+    <expanded>1</expanded>
+    <fields>
+            <enabled translate="label">
+              <label>Enabled</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <config_path>payment/worldpay_yandex/enabled</config_path>
+              <sort_order>1</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </enabled>
+
+            <title translate="label">
+              <label>Title</label>
+              <frontend_type>text</frontend_type>
+              <config_path>payment/worldpay_yandex/title</config_path>
+              <sort_order>4</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </title>
+    </fields>
+  </yandex_config>
+
+        <environment_config>
+          <label>Environment Configuration</label>
+          <frontend_type>text</frontend_type>
+          <sort_order>400</sort_order>
+          <show_in_default>1</show_in_default>
+          <show_in_website>1</show_in_website>
+          <show_in_store>1</show_in_store>
+          <expanded>1</expanded>
+          <fields>
+            <mode translate="label">
+              <label>Environment Mode</label>
+              <frontend_type>select</frontend_type>
+              <source_model>worldpay/system_config_source_worldpayMode</source_model>
+              <config_path>payment/worldpay_mode</config_path>
+              <sort_order>6</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </mode>
+
+            <test_service_key translate="label">
+              <label>Test Service Key</label>
+              <frontend_type>text</frontend_type>
+              <config_path>payment/worldpay/test_service_key</config_path>
+              <sort_order>7</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </test_service_key>
+            <test_client_key translate="label">
+              <label>Test Client Key</label>
+              <frontend_type>text</frontend_type>
+              <config_path>payment/worldpay/test_client_key</config_path>
+              <sort_order>8</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </test_client_key>
+
+
+            <live_service_key translate="label">
+              <label>Live Service Key</label>
+              <frontend_type>text</frontend_type>
+              <config_path>payment/worldpay/live_service_key</config_path>
+              <sort_order>9</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </live_service_key>
+            <live_client_key translate="label">
+              <label>Live Client Key</label>
+              <frontend_type>text</frontend_type>
+              <config_path>payment/worldpay/live_client_key</config_path>
+              <sort_order>10</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </live_client_key>
+
+            <settlementcurrency translate="label">
+              <label>Settlement Currency</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_currency</source_model>
+              <config_path>payment/worldpay/settlementcurrency</config_path>
+              <sort_order>1</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </settlementcurrency>
+
+            <disablessl translate="label">
+              <label>Disable SSL check in test mode</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <config_path>payment/worldpay/ssl_disabled</config_path>
+              <sort_order>3</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </disablessl>
+
+            <enable_logging translate="label">
+              <label>Enable logging</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_yesno</source_model>
+              <config_path>payment/worldpay/enable_logging</config_path>
+              <sort_order>2</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </enable_logging>
+            
+            <order_status translate="label">
+              <label>New order status</label>
+              <frontend_type>select</frontend_type>
+              <source_model>adminhtml/system_config_source_order_status_processing</source_model>
+              <config_path>payment/worldpay/order_status</config_path>
+              <sort_order>3</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </order_status>
+
+             <description translate="label">
+              <label>Payment Description</label>
+              <frontend_type>text</frontend_type>
+              <config_path>payment/worldpay/description</config_path>
+              <sort_order>5</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </description>
+
+            <sitecodes translate="label">
+                <label>Sitecode Mapping</label>
+                <frontend_model>worldpay/sitecodes</frontend_model>
+                <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                <config_path>payment/worldpay/sitecodes</config_path>
+                <sort_order>50</sort_order>
+                <show_in_default>1</show_in_default>
+                <show_in_website>1</show_in_website>
+                <show_in_store>0</show_in_store>
+            </sitecodes>
+
+
+          </fields>
+        </environment_config>
+      </groups>
+    </worldpay>
+  </sections>
+</config>

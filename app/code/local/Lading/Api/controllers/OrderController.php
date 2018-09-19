@@ -13,9 +13,12 @@ class Lading_Api_OrderController extends Mage_Core_Controller_Front_Action {
 		if(Mage::getSingleton ( 'customer/session' )->isLoggedIn ()){
 			$order_id = $this->getRequest ()->getParam ( 'order_id' );
 			$order_info = Mage::getModel('mobile/order')->getOrderById($order_id);
-			echo json_encode(array('code'=>0,'msg'=>null,'model'=>$order_info));
+			array_walk_recursive($order_info, function (&$item, $key) {
+                        $item = null === $item ? '' : $item;
+                    });
+			echo json_encode(array('code'=>0,'message'=>'Get Order Details Successfully','data'=>$order_info));
 		}else{
-			echo json_encode(array('code'=>5,'msg'=>'no user login','model'=>null));
+			echo json_encode(array('code'=>5,'message'=>'no user login','data'=>null));
 		}
 		
 	}
@@ -63,12 +66,24 @@ class Lading_Api_OrderController extends Mage_Core_Controller_Front_Action {
 				);
 			}
 
-			echo json_encode(array('code'=>0,'msg'=>null,'model'=>$order_list));
+			echo json_encode(array('code'=>0,'message'=>'Get Order List Successfully','data'=>$order_list));
 
 		}else{
-			echo json_encode(array('code'=>5,'msg'=>'no user login','model'=>null));
+			echo json_encode(array('code'=>5,'message'=>'no user login','data'=>null));
 		}
 	}
+
+	// public function getOrderDetailsAction() {
+	// 	if(Mage::getSingleton ( 'customer/session' )->isLoggedIn ()){
+	// 		$order_id = $this->getRequest ()->getParam ( 'order_id' );
+	// 		$order_info = Mage::getModel('mobile/order')->getOrderById($order_id);
+	// 		echo json_encode(array('code'=>0,'msg'=>null,'model'=>$order_info));
+	// 	}else{
+	// 		echo json_encode(array('code'=>5,'msg'=>'no user login','model'=>null));
+	// 	}
+		
+	// }
+
 
 
 

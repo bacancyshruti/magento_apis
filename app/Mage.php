@@ -473,6 +473,8 @@ final class Mage
     public static function getSingleton($modelClass='', array $arguments=array())
     {
         $registryKey = '_singleton/'.$modelClass;
+
+        
         if (!self::registry($registryKey)) {
             self::register($registryKey, self::getModel($modelClass, $arguments));
         }

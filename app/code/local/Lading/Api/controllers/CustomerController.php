@@ -23,9 +23,6 @@ class Lading_Api_CustomerController extends Mage_Core_Controller_Front_Action {
 			$session = Mage::getSingleton("core/session")->getEncryptedSessionId();
 			$customer = Mage::getSingleton ( 'customer/session' )->getCustomer ();
 			$storeUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);
-						//$cart = Mage::getSingleton ( 'checkout/cart' );
-
-
 			$avatar = $customer->getMyAvatar (); 
 			if (isset($avatar))
 				$avatar = $storeUrl . "customer" . $customer->getMyAvatar ();
@@ -33,23 +30,26 @@ class Lading_Api_CustomerController extends Mage_Core_Controller_Front_Action {
 				'code' => 0,
 				'message' => 'Login User',
 				'data' => array(
-					'user_id' => !empty($customer->getId())?$customer->getId():"",
+					'user_id' => $customer->getId(),
 					'first_name' => $customer->firstname,
 					'last_name' => $customer->lastname,
-					'name' => !empty($customer->getName())?$customer->getName():"",
-					'email' => !empty($customer->getEmail())?$customer->getEmail():"",
-					'avatar' => !empty($customer->getMyAvatar())?$customer->getMyAvatar():"",
-					'tel' => !empty($customer->getDefaultMobileNumber())?$customer->getDefaultMobileNumber():"",
-				    'cart_items_count' => Mage::helper ( 'checkout/cart' )->getSummaryCount (),
+					'name' => $customer->getName(),
+					'email' => $customer->getEmail(),
+					'avatar' => $customer->getMyAvatar(),
+					'tel' => $customer->getDefaultMobileNumber(),
+					'cart_items_count' => Mage::helper ( 'checkout/cart' )->getSummaryCount (),
 					//'name' => $customer->getName (),
 					'session' => $session
 				)
 			);
+			array_walk_recursive($customerinfo, function (&$item, $key) {
+                        $item = null === $item ? '' : $item;
+                    });
 			echo json_encode ( $customerinfo );
 		} else
 			echo json_encode(array(
 				'code' => 5,
-				'message' => 'User Not Login',
+				'message' => 'You already logged into another device. You have to logout First.',
 				'data'=>array () 
 			));
 	}
@@ -58,6 +58,7 @@ class Lading_Api_CustomerController extends Mage_Core_Controller_Front_Action {
      * 用户登录
      */
 	public function loginAction() {
+		//echo 1;exit;
 		$session = Mage::getSingleton ( 'customer/session' );
 		if (Mage::getSingleton ( 'customer/session' )->isLoggedIn ()) {
 			$session->logout ();
@@ -75,7 +76,7 @@ class Lading_Api_CustomerController extends Mage_Core_Controller_Front_Action {
 				case Mage_Customer_Model_Customer::EXCEPTION_EMAIL_NOT_CONFIRMED :
 					echo json_encode ( array (
 							'code' => 1,
-							'message' => 'This Account is not Confirmed.',
+							'message' => 'This account is not confirmed.',
 							'data'=>array () 
 					) );
 					break;
@@ -139,7 +140,6 @@ class Lading_Api_CustomerController extends Mage_Core_Controller_Front_Action {
 					$address->save ();
 					$session->unsGuestAddress ();
 				}
-//				print_r($customer);exit;
 				echo json_encode ( array (
 						'code'=>0,
 						'message'=>'User Registered Successfully',
@@ -152,10 +152,6 @@ class Lading_Api_CustomerController extends Mage_Core_Controller_Front_Action {
 							'avatar' => !empty($customer->getMyAvatar())?$customer->getMyAvatar():"",
 							'tel' => !empty($customer->getDefaultMobileNumber())?$customer->getDefaultMobileNumber():"",
 
-							//'name' => $customer->getName (),
-							//'email' => $customer->getEmail (),
-							//'avatar' => $customer->getMyAvatar (),
-							//'tel' => $customer->getDefaultMobileNumber (),
 							'session' => Mage::getSingleton("core/session")->getEncryptedSessionId()
 						)
 				) );
@@ -169,7 +165,7 @@ class Lading_Api_CustomerController extends Mage_Core_Controller_Front_Action {
 		} catch ( Mage_Core_Exception $e ) {
 			if ($e->getCode () === Mage_Customer_Model_Customer::EXCEPTION_EMAIL_EXISTS) {
 				$url = Mage::getUrl ( 'customer/account/forgotpassword' );
-				$message = $this->__ ( 'There is already an account with this email address, %s', $url );
+				$message = $this->__ ( 'There is already an account with this email address.');
 				$session->setEscapeMessages ( false );
 			} else {
 				$message = $e->getMessage ();
@@ -188,7 +184,6 @@ class Lading_Api_CustomerController extends Mage_Core_Controller_Front_Action {
 			) );
 		}
 	}
-
     /**
      * 忘记密码处理
      */
@@ -201,21 +196,19 @@ class Lading_Api_CustomerController extends Mage_Core_Controller_Front_Action {
 		}
  		if ($this->_user_isexists ( $email )) {
 			$customer = Mage::getModel ( 'customer/customer' )->setWebsiteId ( Mage::app ()->getStore ()->getWebsiteId () )->loadByEmail ( $email );
-mail('shrutipatel@bacancytechnology.com','test','test');
-			$abc = $this->_sendEmailTemplate ( $customer,self::XML_PATH_FORGOT_EMAIL_TEMPLATE, self::XML_PATH_FORGOT_EMAIL_IDENTITY, array (
+			$this->_sendEmailTemplate ( $customer,self::XML_PATH_FORGOT_EMAIL_TEMPLATE, self::XML_PATH_FORGOT_EMAIL_IDENTITY, array (
 					'customer' => $customer 
 			), null);
-			
 			echo json_encode ( array (
 					'code' => 0,
 					'message' => 'Request has sent to your Email.',
-					'data'=>array()
+					'model'=>array()
 			) );
 		} else
 			echo json_encode ( array (
 					'code' => 1,
 					'message' => 'No matched email data.' ,
-					'data'=>array()
+					'model'=>array()
 			) );
 	}
 
@@ -225,7 +218,7 @@ mail('shrutipatel@bacancytechnology.com','test','test');
 	public function logoutAction() {
 		try {
 			Mage::getSingleton ( 'customer/session' )->logout();
-			echo json_encode(array('code'=>0, 'msg'=>'Customer Logout Successfully', 'model'=>array()));
+			echo json_encode(array('code'=>0, 'msg'=>null, 'model'=>array()));
 		} catch (Exception $e) {
 			echo json_encode(array('code'=>1, 'msg'=>$e->getMessage(), 'model'=>array()));
 		}
@@ -261,21 +254,16 @@ mail('shrutipatel@bacancytechnology.com','test','test');
 	{
 		/** @var $mailer Mage_Core_Model_Email_Template_Mailer */
 		$mailer = Mage::getModel('core/email_template_mailer');
-
 		$emailInfo = Mage::getModel('core/email_info');
-		
 		$emailInfo->addTo($customer->getEmail(), $customer->getName());
 		$mailer->addEmailInfo($emailInfo);
 	
 		// Set all required params and send emails
-		//print_r(Mage::getStoreConfig($sender, $storeId));exit;
 		$mailer->setSender(Mage::getStoreConfig($sender, $storeId));
 		$mailer->setStoreId($storeId);
 		$mailer->setTemplateId(Mage::getStoreConfig($template, $storeId));
 		$mailer->setTemplateParams($templateParams);
-		
 		$mailer->send();
-		//print_r($this);exit;
 		return $this;
 	}
 
@@ -320,7 +308,7 @@ mail('shrutipatel@bacancytechnology.com','test','test');
 	    } else {
 	    	echo json_encode(array(
 				'code' => 5,
-				'message' => 'not user login',
+				'message' => 'You already logged into another device. You have to logout First.',
 				'data'=>array () 
 			));
 	    }
@@ -343,7 +331,7 @@ mail('shrutipatel@bacancytechnology.com','test','test');
 		}else{
 			echo json_encode(array(
 				'code' => 5,
-				'msg' => 'not user login',
+				'msg' => 'You already logged into another device. You have to logout First.',
 				'model'=>array ()
 			));
 		}
@@ -385,7 +373,7 @@ mail('shrutipatel@bacancytechnology.com','test','test');
 		}else {
 			echo json_encode(array(
 				'code' => 5,
-				'message' => 'not user login',
+				'message' => 'You already logged into another device. You have to logout First.',
 				'data' => array()
 			));
 		}

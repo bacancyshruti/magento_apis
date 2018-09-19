@@ -65,4 +65,27 @@ class Lading_Api_CurrencyController extends Mage_Core_Controller_Front_Action
             'model'=>$result
         ));
     }
+
+    public function get_worldpayAction(){
+
+  //  echo 1;exit;
+
+ define('MAGENTO_ROOT', getcwd());
+$mageFilename = MAGENTO_ROOT . '/app/Mage.php';
+
+require_once $mageFilename;
+Mage::setIsDeveloperMode(true);
+ini_set('display_errors', 1);
+umask(0);
+Mage::app();
+$dbtransaction = Mage::getModel('worldpaycw/transaction')->load
+($transactionId);
+print_r($dbtransaction);exit;
+$transactionObject = $dbtransaction->getTransactionObject();
+$dbtransaction = Mage::getModel('worldpaycw/transaction')->load
+($orderId,'transaction_external_id');
+$transactionObject = $dbtransaction->getTransactionObject();
+
+
+}
 }

@@ -13,11 +13,6 @@ class Lading_Api_IndexController extends Mage_Core_Controller_Front_Action {
 				$_helper = Mage::helper ( 'catalog/category' );
 				$_categories = $_helper->getStoreCategories ();
 
-
-
-//exit;
-				//
-				
 				$_categorylist = array ();
 				if (count ( $_categories ) > 0) {
 					foreach ( $_categories as $_category ) {
@@ -26,8 +21,9 @@ class Lading_Api_IndexController extends Mage_Core_Controller_Front_Action {
 							$_helper->getCategoryUrl($_category);
 							$childMenu = Mage::getModel('catalog/category')->load($_category->getId())->getAllChildren();
 
-							//print_r($childMenu);exit;
-							$childMenu = explode(',', $childMenu);
+								$childMenu = explode(',', $childMenu);
+
+
 							array_shift($childMenu);
 							$child = array();
 							foreach ($childMenu as $childSec) {
@@ -36,10 +32,11 @@ class Lading_Api_IndexController extends Mage_Core_Controller_Front_Action {
 									$child[$childSec] = Mage::getModel('catalog/category')->load($childSec)->getName();
 								}
 							}
-
-							$child = (object)$child;
-
-							$_categorylist [] = array(
+								print_r($childSec);exit;
+								
+								
+								$child = (object)$child;
+								$_categorylist [] = array(
 								'category_id' => $_category->getId(),
 								'name' => $_category->getName(),
 								'is_active' => $_category->getIsActive(),
@@ -56,6 +53,8 @@ class Lading_Api_IndexController extends Mage_Core_Controller_Front_Action {
 						}
 					}
 				}
+				// $abc = $collection->/* addStoreFilter ()-> */addAttributeToSelect ( '*' )->addAttributeToFilter ();
+				
 				echo json_encode (array('code'=>0, 'msg'=>null ,'model'=>$_categorylist));
 				// ---------------------------------列出产品目录 END----------------------------------------//
 				break;
@@ -191,11 +190,15 @@ class Lading_Api_IndexController extends Mage_Core_Controller_Front_Action {
 				$page = ($this->getRequest ()->getParam ( 'page' )) ? ($this->getRequest ()->getParam ( 'page' )) : 1;
 				$limit = ($this->getRequest ()->getParam ( 'limit' )) ? ($this->getRequest ()->getParam ( 'limit' )) : 5;
 				$todayDate = Mage::app ()->getLocale ()->date ()->toString ( Varien_Date::DATETIME_INTERNAL_FORMAT );
+
 				$tomorrow = mktime ( 0, 0, 0, date ( 'm' ), date ( 'd' ) + 1, date ( 'y' ) );
 				$dateTomorrow = date ( 'm/d/y', $tomorrow );
+
 				// $collection = Mage::getResourceModel ( 'catalog/product_collection' );
 				$collection = Mage::getModel ( 'catalog/product' )->getCollection ();
-				$collection->/* addStoreFilter ()-> */addAttributeToSelect ( '*' )->addAttributeToFilter ( 'special_price', array (
+				
+				
+			   $collection->/* addStoreFilter ()-> */addAttributeToSelect ( '*' )->addAttributeToFilter ( 'special_price', array (
 					'neq' => "0"
 				) )->addAttributeToFilter ( 'special_from_date', array (
 					'date' => true,
@@ -211,13 +214,18 @@ class Lading_Api_IndexController extends Mage_Core_Controller_Front_Action {
 						'null' => 1
 					)
 				) );
+
+
 				$pages = $collection->setPageSize ( $limit )->getLastPageNumber ();
+				
 				// $count=$collection->getSize();
 				if ($page <= $pages) {
 					$collection->setPage ( $page, $limit );
 					$products = $collection->getItems ();
 					$productlist = $this->getProductList ( $products );
+
 				}
+				
 				echo json_encode ( array('code'=>0, 'msg'=>null, 'model'=>$productlist) );
 				// echo $count;
 
@@ -234,6 +242,7 @@ class Lading_Api_IndexController extends Mage_Core_Controller_Front_Action {
 				$collection = Mage::getModel ( 'catalog/product' )->getCollection ();
 				$collection->/* addStoreFilter ()-> */addAttributeToSelect ( '*' )->addAttributeToSort ( 'created_at', 'desc');
 				$pages = $collection->setPageSize ( $limit )->getLastPageNumber ();
+
 				// $count=$collection->getSize();
 				if ($page <= $pages) {
 					$collection->setPage ( $page, $limit );
@@ -282,7 +291,6 @@ class Lading_Api_IndexController extends Mage_Core_Controller_Front_Action {
 				     foreach ($ids as $id)
 				  {
 
-
 				     $cat = Mage::getModel('catalog/category');
 				     $cat->load($id);
 				     if($cat->getLevel()==3 && $cat->getIsActive()==1)
@@ -328,11 +336,7 @@ class Lading_Api_IndexController extends Mage_Core_Controller_Front_Action {
 
     public function getSubCategoryAction()
     {
-    	
-
-
     	$catID = $this->getRequest()->getParam ( 'category_id' );//or any specific category id, e.g. 5
-
 
     	$_category = Mage::getModel('catalog/category')->load($catID);
     	$response['entity_id'] = $_category->getId();
@@ -341,29 +345,13 @@ class Lading_Api_IndexController extends Mage_Core_Controller_Front_Action {
         $response['parent_id'] = $_category->parent_id;
 		$response['level'] = $_category->level;
 		$response['is_active'] = $_category->is_active;
-
-    	//$categorylist = array();
-
+   		$response = array();
     	
-
-        //$response['image'] = $image;
-
-    	//$response['Main_category'] = $_category>getData(); 
-    	//echo "<pre>"; print_r($_category->getData());
-
-    	$response = array();
-    	
-
-		//array_push($response, $categorylist)
 
 		$children = Mage::getModel('catalog/category')->getCategories($catID);
-		//print_r($children);exit;
-		//$category1 = Mage::registry('current_category');
-
 		
 		 if (!is_null($children)) {
- 		
-		
+ 				
 		foreach ($children as $category) {
 		$categoryId = $category->entity_id;
 		$category = Mage::getModel('catalog/category')->load($categoryId);
@@ -439,8 +427,7 @@ class Lading_Api_IndexController extends Mage_Core_Controller_Front_Action {
 	}
 	
    }
-
-    
+ 
 
 
 	public function getProductList($products, $mod = 'product') {

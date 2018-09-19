@@ -29,8 +29,8 @@ class Lading_Api_CheckoutController extends Mage_Core_Controller_Front_Action{
         }
         echo json_encode(array(
             'code'=>0,
-            'msg'=>'get order address success!',
-            'model'=>$addressList
+            'message'=>'get order address success!',
+            'data'=>$addressList
         ));
     }
 
@@ -45,14 +45,14 @@ class Lading_Api_CheckoutController extends Mage_Core_Controller_Front_Action{
             $address = Mage::getModel('mobile/checkout')->getAddressByQuote($quote);
             echo json_encode(array(
                 'code'=>0,
-                'msg'=>' get quote address success!',
-                'model'=>$address
+                'message'=>' get quote address success!',
+                'data'=>$address
             ));
         }else{
             echo json_encode(array(
                 'code'=>1,
-                'msg'=>'can not get quote!',
-                'model'=>null
+                'message'=>'can not get quote!',
+                'data'=>null
             ));
         }
     }
@@ -67,20 +67,21 @@ class Lading_Api_CheckoutController extends Mage_Core_Controller_Front_Action{
     public function getShippingMethodsListAction(){
         $return_result = array (
             'code' => 0,
-            'msg' => 'get shipping method list success!',
-            'model' => null
+            'message' => 'get shipping method list success!',
+            'data' => null
         );
         $quote = Mage::getSingleton('checkout/session')->getQuote();
+
         $quoteShippingAddress = $quote->getShippingAddress();
 
         if (is_null($quoteShippingAddress->getId())) {
-            $return_result['msg'] = 'shipping_address_is_not_set';
+            $return_result['message'] = 'shipping_address_is_not_set';
             $return_result['code'] = 1;
             echo json_encode($return_result);
-
             return;
         }
-        $return_result['model'] = Mage::getModel('mobile/checkout')->getShippingMethodListByQuote($quote);
+        $return_result['data'] = Mage::getModel('mobile/checkout')->getShippingMethodListByQuote($quote);
+        
         echo json_encode($return_result);
 
     }
@@ -96,8 +97,8 @@ class Lading_Api_CheckoutController extends Mage_Core_Controller_Front_Action{
         $payment_methods = Mage::getModel('mobile/checkout')->getActivePaymentMethods($quote);
         echo json_encode(array(
             'code'=> 0,
-            'msg'=> 'get payment methods success!',
-            'model'=> $payment_methods
+            'message'=> 'get payment methods success!',
+            'data'=> $payment_methods
         ));
     }
 
@@ -109,8 +110,8 @@ class Lading_Api_CheckoutController extends Mage_Core_Controller_Front_Action{
     public function setBillingAction(){
         $return_result = array (
             'code' => 0,
-            'msg' => 'set billing address success!',
-            'model' => null,
+            'message' => 'set billing address success!',
+            'data' => null,
             'error' => null
         );
         if ($this->getRequest()->isPost()) {
@@ -133,10 +134,10 @@ class Lading_Api_CheckoutController extends Mage_Core_Controller_Front_Action{
             }
             if ($result['error']){
                 $return_result['code'] = 1;
-                $return_result['msg'] = 'set billing address fail!';
+                $return_result['message'] = 'set billing address fail!';
                 $return_result['error'] = $result['message'];
             }
-            $return_result['model'] = $result;
+            $return_result['data'] = $result;
         }
         echo json_encode($return_result);
     }
@@ -148,25 +149,20 @@ class Lading_Api_CheckoutController extends Mage_Core_Controller_Front_Action{
     public function setShippingAction(){
         $return_result = array (
             'code' => 0,
-            'msg' => 'save shipping address success!',
-            'model' => null
+            'message' => 'save shipping address success!',
+            'data' => null
         );
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost('shipping', array());
-
-            //print_r($data);exit;
-
             $customerAddressId = $this->getRequest()->getPost('shipping_address_id', false);
-
             $result = Mage::getSingleton('checkout/type_onepage')->saveShipping($data, $customerAddressId);
-
             if (!isset($result['error'])) {
                 $result['goto_section'] = 'shipping_method';
                 $result['update_section'] = array(
                     'name' => 'shipping-method',
                 );
             }
-            $return_result['model'] = $result;
+            $return_result['data'] = $result;
         }
         echo json_encode($return_result);
     }
@@ -180,8 +176,8 @@ class Lading_Api_CheckoutController extends Mage_Core_Controller_Front_Action{
     public function setShippingMethodAction(){
         $return_result = array (
             'code' => 0,
-            'msg' => 'save shipping method success!',
-            'model' => null
+            'message' => 'save shipping method success!',
+            'data' => null
         );
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost('shipping_method', '');
@@ -191,9 +187,9 @@ class Lading_Api_CheckoutController extends Mage_Core_Controller_Front_Action{
                 Mage::getSingleton('checkout/type_onepage')->getQuote()->collectTotals();
             }
             if ($result['error']){
-                $return_result['msg'] = $result['message'];
+                $return_result['message'] = $result['message'];
             }
-            $return_result['model'] = $result;
+            $return_result['data'] = $result;
             Mage::getSingleton('checkout/type_onepage')->getQuote()->collectTotals()->save();
 
         }
@@ -209,8 +205,8 @@ class Lading_Api_CheckoutController extends Mage_Core_Controller_Front_Action{
     public function setPayMethodAction(){
         $return_result = array (
             'code' => 0,
-            'msg' => 'save payment method success!',
-            'model' => null
+            'message' => 'save payment method success!',
+            'data' => null
         );
         try {
             if ($this->getRequest()->isPost()) {
@@ -223,12 +219,12 @@ class Lading_Api_CheckoutController extends Mage_Core_Controller_Front_Action{
                 Mage::getSingleton('checkout/type_onepage')->getQuote()->collectTotals()->save();
             } else {
                 $result['code'] = 1;
-                $result['msg'][] = 'Please specify payment method.';
+                $result['message'][] = 'Please specify payment method.';
             }
         } catch (Exception $e) {
             Mage::logException($e);
             $result['code'] = 1;
-            $result['msg'][] = 'Unable to set Payment Method.';
+            $result['message'][] = 'Unable to set Payment Method.';
         }
         echo json_encode($return_result);
     }
@@ -276,9 +272,9 @@ class Lading_Api_CheckoutController extends Mage_Core_Controller_Front_Action{
                     $inclPrice = $_incl - $item->getWeeeTaxDisposition();
                 }
             }
-            $exclPrice = Mage::helper('mobileapi')->formatPriceForXml($exclPrice);
+           // $exclPrice = Mage::helper('mobileapi')->formatPriceForXml($exclPrice);
             $formatedExclPrice = $quote->getStore()->formatPrice($exclPrice, false);
-            $inclPrice = Mage::helper('mobileapi')->formatPriceForXml($inclPrice);
+            //$inclPrice = Mage::helper('mobileapi')->formatPriceForXml($inclPrice);
             $formatedInclPrice = $quote->getStore()->formatPrice($inclPrice, false);
             if (Mage::helper('tax')->displayCartBothPrices()) {
                 $cartItemArr['price_excluding_tax'] = $exclPrice;
@@ -325,10 +321,13 @@ class Lading_Api_CheckoutController extends Mage_Core_Controller_Front_Action{
         $orderReviewArr['shipping_method'] = Mage::getModel('mobile/checkout')->getShippingMethodByQuote($quote);
         $orderReviewArr['symbol'] = Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol();
         $orderReviewArr['is_virtual'] = $virtual_flag;
+        array_walk_recursive($orderReviewArr, function (&$item, $key) {
+                        $item = null === $item ? '' : $item;
+                    });
         echo json_encode(array(
             'code'=> 0,
-            'msg'=> 'get order review success!',
-            'model'=> $orderReviewArr
+            'message'=> 'get order review success!',
+            'data'=> $orderReviewArr
         ));
     }
 
@@ -340,8 +339,8 @@ class Lading_Api_CheckoutController extends Mage_Core_Controller_Front_Action{
         $form_key = Mage::getSingleton('core/session')->getFormKey();
         $return_result = array (
             'code' => 0,
-            'msg' => 'get form key success!',
-            'model' => $form_key
+            'message' => 'get form key success!',
+            'data' => $form_key
         );
         echo json_encode($return_result);
     }
@@ -354,8 +353,8 @@ class Lading_Api_CheckoutController extends Mage_Core_Controller_Front_Action{
     {
         $return_result = array (
             'code' => 0,
-            'msg' => 'get success info success!',
-            'model' => null
+            'message' => 'get success info success!',
+            'data' => null
         );
         $session = Mage::getSingleton('checkout/type_onepage')->getCheckout();
         if (!$session->getLastSuccessQuoteId()) {
@@ -368,13 +367,13 @@ class Lading_Api_CheckoutController extends Mage_Core_Controller_Front_Action{
         if (!$lastQuoteId || (!$lastOrderId && empty($lastRecurringProfiles))) {
             $this->_redirect('checkout/cart');
             $return_result['code'] = 1;
-            $return_result['msg'] = 'already load success message!';
+            $return_result['message'] = 'already load success message!';
             echo json_encode($return_result);
             return;
         }
         $order_info = Mage::getModel('mobile/order')->getOrderByEntityId($lastOrderId);
         //$session->clear();
-        $return_result['model'] = array(
+        $return_result['data'] = array(
             'order_id' => $order_info['order_id']
         );
         echo json_encode($return_result);

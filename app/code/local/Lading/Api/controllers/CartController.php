@@ -52,7 +52,7 @@ class Lading_Api_CartController extends Mage_Core_Controller_Front_Action {
 			}
 		}else{
 			$result['code'] = 5;
-			$result['message'] = 'not user login';
+			$result['message'] = 'You already logged into another device. You have to logout First.';
 			echo json_encode($result);
 		}
 	}
@@ -75,7 +75,7 @@ class Lading_Api_CartController extends Mage_Core_Controller_Front_Action {
 			);
 		}else{
 			$return_result['code'] = 5;
-			$return_result['message'] = 'not user login';
+			$return_result['message'] = 'You already logged into another device. You have to logout First.';
 		}
 		echo json_encode($return_result);
     }
@@ -158,7 +158,7 @@ class Lading_Api_CartController extends Mage_Core_Controller_Front_Action {
 		}else{
 			echo json_encode(array(
 				'code' => 5,
-				'message' => 'not user login',
+				'message' => 'You already logged into another device. You have to logout First.',
 				'data'=>array ()
 			));
 		}
@@ -245,12 +245,15 @@ class Lading_Api_CartController extends Mage_Core_Controller_Front_Action {
 			$cartInfo ['payment_methods'] = $this->_getPaymentInfo ();
 			$cartInfo ['allow_guest_checkout'] = Mage::helper ( 'checkout' )->isAllowedGuestCheckout ( $cart->getQuote () );
 			$cartInfo ['symbol'] = Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol();
+			array_walk_recursive($cartInfo, function (&$item, $key) {
+                        $item = null === $item ? '' : $item;
+                    });
 
 			echo json_encode (array('code'=>0, 'message'=>$message, 'data'=>$cartInfo));
 		}else{
 			echo json_encode(array(
 				'code' => 5,
-				'message' => 'not user login',
+				'message' => 'You already logged into another device. You have to logout First.',
 				'data'=>array () 
 			));
 		}
@@ -452,7 +455,7 @@ class Lading_Api_CartController extends Mage_Core_Controller_Front_Action {
 		}else{
 			echo json_encode(array(
 				'code' => 5,
-				'message' => 'not user login',
+				'message' => 'You already logged into another device. You have to logout First.',
 				'data'=>array () 
 			));
 		}
@@ -480,7 +483,7 @@ class Lading_Api_CartController extends Mage_Core_Controller_Front_Action {
 		}else{
 			echo json_encode(array(
 				'code' => 5,
-				'message' => 'not user login',
+				'message' => 'You already logged into another device. You have to logout First.',
 				'data'=>array ()
 			));
 		}
